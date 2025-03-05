@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Lite</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Gadget Hub</h1>
+        </header>
+
+        <main>
+            <section id="product-gallery">
+                <h2 id="hdi">Available Gadgets</h2>
+                <div class="product-grid">
+                    <div class="product-item" data-id="1">
+                        <img src="gadget1.jpg" alt="Smart Watch">
+                        <div class="product-details">
+                            <h3>Smart Watch</h3>
+                            <p class="price">$79.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-id="2">
+                        <img src="gadget2.jpg" alt="Wireless Earbuds">
+                        <div class="product-details">
+                            <h3>Wireless Earbuds</h3>
+                            <p class="price">$49.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-id="3">
+                        <img src="gadget3.jpg" alt="Portable Speaker">
+                        <div class="product-details">
+                            <h3>Portable Speaker</h3>
+                            <p class="price">$59.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-id="4">
+                        <img src="gadget4.jpg" alt="macbook m3">
+                        <div class="product-details">
+                            <h3>Macbook M3</h3>
+                            <p class="price">$999.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-id="5">
+                        <img src="gadget5.jpg" alt="iphone 16 promax">
+                        <div class="product-details">
+                            <h3>Iphone 16 promax</h3>
+                            <p class="price">$999.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-id="6">
+                        <img src="gadget6.jpg" alt="go-pro">
+                        <div class="product-details">
+                            <h3>Go-pro</h3>
+                            <p class="price">$999.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-id="7">
+                        <img src="gadget7.jpg" alt="Iphone 13 case">
+                        <div class="product-details">
+                            <h3>Iphone 13 case</h3>
+                            <p class="price">$999.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-id="8">
+                        <img src="gadget8.jpg" alt="laptop table">
+                        <div class="product-details">
+                            <h3>Laptop table</h3>
+                            <p class="price">$999.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-item" data-id="9">
+                        <img src="gadget9.jpg" alt="sandisk">
+                        <div class="product-details">
+                            <h3>Sandisk</h3>
+                            <p class="price">$999.99</p>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <aside id="shopping-cart">
+                <h2>Your Cart</h2>
+                <ul id="cart-list">
+                </ul>
+                <div id="cart-total">Total: $0.00</div>
+                <button id="clear-cart-btn">Clear Cart</button>
+            </aside>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 The Gadget Hub</p>
+        </footer>
+    </div>
+
+    <script>
+        class Product {
+            constructor(id, name, price, image) {
+                this.id = id;
+                this.name = name;
+                this.price = price;
+                this.image = image;
+            }
+        }
+
+        class Cart {
+            constructor() {
+                this.items = [];
+            }
+
+            addItem(product) {
+                this.items.push(product);
+                this.updateCartDisplay();
+            }
+
+            removeItem(productId) {
+                this.items = this.items.filter(item => item.id !== productId);
+                this.updateCartDisplay();
+            }
+
+            clearCart() {
+                this.items = [];
+                this.updateCartDisplay();
+            }
+
+            updateCartDisplay() {
+                const cartList = document.getElementById('cart-list');
+                const cartTotal = document.getElementById('cart-total');
+                cartList.innerHTML = '';
+
+                let total = 0;
+                this.items.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `${item.name} - $${item.price} <button class="remove-item-btn" data-id="${item.id}">Remove</button>`;
+                    cartList.appendChild(listItem);
+                    total += item.price;
+                });
+
+                cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+                this.addRemoveListeners(); // Add listeners after updating the list
+            }
+
+            addRemoveListeners() {
+                document.querySelectorAll('.remove-item-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productId = parseInt(this.dataset.id);
+                        cart.removeItem(productId);
+                    });
+                });
+            }
+        }
+
+        const cart = new Cart();
+
+        const products = [
+            new Product(1, 'Smart Watch', 79.99, 'gadget1.jpg'),
+            new Product(2, 'Wireless Earbuds', 49.99, 'gadget2.jpg'),
+            new Product(3, 'Portable Speaker', 59.99, 'gadget3.jpg'),
+            new Product(4, 'Macbook M3', 999.99, 'gadget4.jpg'),
+            new Product(5, 'Iphone 16 pro max', 999.99, 'gadget5.jpg'),
+            new Product(6, 'Go-pro', 999.99, 'gadget6.jpg'),
+            new Product(7, 'Iphone 13 case', 999.99, 'gadget7.jpg'),
+            new Product(8, 'Laptop table', 999.99, 'gadget8.jpg'),
+            new Product(9, 'Sandisk', 999.99, 'gadget9.jpg'),
+        ];
+
+        document.querySelectorAll('.add-cart-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const productItem = this.closest('.product-item');
+                const productId = parseInt(productItem.dataset.id);
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    cart.addItem(product);
+                }
+            });
+        });
+
+        document.getElementById('clear-cart-btn').addEventListener('click', function() {
+            cart.clearCart();
+        });
+
+    </script>
+</body>
+</html>
